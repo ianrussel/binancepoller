@@ -4,7 +4,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import requests as req
 import json
 
-cryptos = ['BNB', 'BTC', 'ETH', 'DOT']
+cryptos = ['BNB', 'BTC', 'ETH', 'DOT', 'NEO', 'LINK']
 
 sched = BlockingScheduler()
 connection = Connect.get_connection()
