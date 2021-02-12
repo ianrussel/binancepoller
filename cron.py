@@ -16,7 +16,7 @@ def timed_job():
     print('fetching candlestick run every minute(s).')
     for crypto in cryptos:
         resp = req.get(
-            f'https://api.binance.com/api/v1/klines?symbol={crypto}USDT&interval=5m&limit=1000')
+            f'https://api.binance.com/api/v1/klines?symbol={crypto}USDT&interval=1m&limit=1000')
         res = resp.json()
         db.candlesticks.insert_one(
             {"symbol": crypto,
