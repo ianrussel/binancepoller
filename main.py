@@ -15,6 +15,8 @@ app = Flask(__name__)
 def getCandleStick():
     cs = db.candlesticks
     response = cs.find_one({"symbol": "BTC"})
+    if not response:
+        return "no candlesticks available"
     return json.dumps(response['data'])
 
 
