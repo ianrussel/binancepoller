@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, Response
 from datetime import datetime
 import os
 import json
@@ -12,11 +12,22 @@ app = Flask(__name__)
 
 
 @app.route('/')
+def index():
+    return "Welcome"
+
+
+@app.route('/api/klines', methods=['GET'])
 def getCandleStick():
+    limit = request.args.get('limit', '1000')
+    if not request.args.get('symbol'):
+        return 'symbol is required', 400
+    if not request.args.get('interval'):
+        return 'interval is required', 400
     cs = db.candlesticks
-    response = cs.find_one({"symbol": "BTC"})
+    response = cs.find_one({"symbol": request.args.get('symbol').upper()})
     if not response:
-        return "no candlesticks available"
+        return f'no candlesticks available fro symbol {request.args.get("symbol").upper()}'
+
     return json.dumps(response['data'])
 
 
