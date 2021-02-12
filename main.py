@@ -24,7 +24,9 @@ def getCandleStick():
     if not request.args.get('interval'):
         return 'interval is required', 400
     cs = db.candlesticks
-    response = cs.find_one({"symbol": request.args.get('symbol').upper()})
+    query = {"symbol": request.args.get("symbol").upper()}
+    response = cs.find_one(query)
+
     if not response:
         return f'no candlesticks available fro symbol {request.args.get("symbol").upper()}'
 
