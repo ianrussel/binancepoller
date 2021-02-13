@@ -108,6 +108,10 @@ def getHistoricalCandleSticks():
     if not request.args.get('symbol'):
         return 'symbol is required', 400
     limit = request.args.get('limit', 1000)
+    if int(limit) < 500:
+        limit = 500
+    if int(limit) > 1000:
+        limit = 1000
     if not request.args.get('start'):
         return 'start is required in query params', 400
     if not request.args.get("end"):
