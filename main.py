@@ -112,6 +112,8 @@ def getHistoricalCandleSticks():
         limit = 500
     if int(limit) > 1000:
         limit = 1000
+    if not request.args.get("interval"):
+        return "interval query param is required"
     if not request.args.get('start'):
         return 'start is required in query params', 400
     if not request.args.get("end"):
