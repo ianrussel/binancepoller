@@ -1,8 +1,10 @@
-from flask import Flask, request, Response
-from datetime import datetime
+from flask import Flask, request, Response, jsonify
+from datetime import datetime, timedelta
 import os
 import json
+from bson import json_util
 import requests as req
+import dateutil
 
 from pymongo import MongoClient
 from database import Connect
@@ -97,12 +99,20 @@ def getCandleStick():
         return 'symbol is required', 400
     if not request.args.get('interval'):
         return 'interval is required', 400
-    res = req.get(
-        f'https://api.binance.com/api/v1/klines?symbol={request.args.get("symbol").upper()}USDT&interval={request.args.get("interval")}&limit={limit}')
-    return json.dumps(res.json())
+    from_date = request.args.get(
+        'from_date', '2017-01-01')
+    to_date = request.args.get('to_date', datetime.now().strftime("%Y-%m-%d"))
+    if request.args.get('symbol') in db.list_collection_names():
+        re = db[request.args.get('symbol').upper()].find(
+            {"timestamp": {"$gte": from_date, "$lte": to_date}}).sort([('timestamp', -1)]).limit(int(limit))
+        klines = []
+        for r in re:
+            klines.append(json.loads(json_util.dumps(r)))
+        return jsonify(klines)
+    return f'{request.args.get("symbol")} does not exists', 404
 
 
-@app.route('/api/historical_klines', methods=["GET"])
+@ app.route('/api/historical_klines', methods=["GET"])
 def getHistoricalCandleSticks():
     """ get the hsitorical klines"""
     if not request.args.get('symbol'):
