@@ -103,8 +103,10 @@ def getCandleStick():
         'from_date', '2017-01-01')
     to_date = request.args.get('to_date', datetime.now().strftime("%Y-%m-%d"))
     if request.args.get('symbol') in db.list_collection_names():
+        # re = db[request.args.get('symbol').upper()].find(
+        #     {"timestamp": {"$gte": from_date, "$lte": to_date}}).sort([('timestamp', -1)]).limit(int(limit))
         re = db[request.args.get('symbol').upper()].find(
-            {"timestamp": {"$gte": from_date, "$lte": to_date}}).sort([('timestamp', -1)]).limit(int(limit))
+            {"timestamp": {"$gte": from_date, "$lte": to_date}}).limit(int(limit))
         klines = []
         for r in re:
             klines.append(json.loads(json_util.dumps(r)))
