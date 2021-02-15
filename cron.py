@@ -4,12 +4,10 @@ import json
 import ast
 from datetime import timedelta, datetime
 from dateutil import parser
-from tqdm import tqdm_notebook  # (Optional, used for progress-bars)
-import pandas as pd
+
 import math
 import os.path
 import time
-from bitmex import bitmex
 
 from save import get_all_binance
 
@@ -39,11 +37,6 @@ def timed_job():
             get_all_binance(symbol, "1m", save=True)
         except:
             continue
-
-
-@ sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
-def scheduled_job():
-    print('This job is run every weekday at 5pm.')
 
 
 sched.start()
