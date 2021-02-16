@@ -1,6 +1,4 @@
-import sys
 import pandas as pd
-import pymongo
 import json
 import os
 import time

@@ -1,12 +1,10 @@
-from flask import Flask, request, Response, jsonify
-from datetime import datetime, timedelta
+from flask import Flask, request, jsonify
+from datetime import datetime
 import os
 import json
 from bson import json_util
-import requests as req
-import dateutil
 
-from pymongo import MongoClient
+
 from database import Connect
 
 from binance.client import Client
@@ -67,7 +65,7 @@ def getMarketDept(symbols):
     try:
         response = client.get_order_book(symbol=symbols)
         return response
-    except:
+    except:  # noqa
         return f'{symbols} does not exists or undefined', 404
 
 
@@ -77,7 +75,7 @@ def getSymbolRecentTrades(symbols):
     try:
         response = client.get_recent_trades(symbol=symbols)
         return json.dumps(response)
-    except:
+    except:  # noqa
         return f'{symbols} does not exists or undefined', 404
 
 
@@ -86,7 +84,7 @@ def getSymbolHistoricalTrades(symbols):
     try:
         response = client.get_historical_trades(symbol=symbols)
         return response
-    except:
+    except:  # noqa
         return f'{symbols} does not exists or undefined', 404
 
 # candlesticks
@@ -103,8 +101,6 @@ def getCandleStick():
         'from_date', '2017-01-01')
     to_date = request.args.get('to_date', datetime.now().strftime("%Y-%m-%d"))
     if request.args.get('symbol') in db.list_collection_names():
-        # re = db[request.args.get('symbol').upper()].find(
-        #     {"timestamp": {"$gte": from_date, "$lte": to_date}}).sort([('timestamp', -1)]).limit(int(limit))
         re = db[request.args.get('symbol').upper()].find(
             {"timestamp": {"$gte": from_date, "$lte": to_date}}).limit(int(limit))
         klines = []
@@ -132,13 +128,14 @@ def getHistoricalCandleSticks():
         return 'end is required in query params'
     if not request.args.get("symbol"):
         return 'symbol is required in query params', 400
-    if datetime.strptime(request.args.get("start"), '%d %b, %Y') > datetime.strptime(request.args.get("end"), '%d %b, %Y'):
+    if datetime.strptime(request.args.get("start"), '%d %b, %Y') > datetime.strptime(request.args.get("end"), '%d %b, %Y'):  # noqa
         return 'start date should not greater than end date', 400
     try:
         klines = client.get_historical_klines(
-            request.args.get('symbol').upper(), request.args.get('interval'), request.args.get("start"), request.args.get("end"), int(limit))
+            request.args.get('symbol').upper(), request.args.get('interval'),
+            request.args.get("start"), request.args.get("end"), int(limit))
         if klines is None:
-            return f'no candlesticks for given start and end dates'
+            return "no candlesticks for given start and end dates"
         return json.dumps(klines)
     except TypeError:
         print('error')

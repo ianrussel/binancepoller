@@ -1,0 +1,8 @@
+
+[flake8]
+max-line-length = 100
+# ignore visual under indent
+ignore = E128
+exclude = __pycache__
+  csv
+  ./lib

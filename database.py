@@ -12,4 +12,3 @@ class Connect(object):
     def get_connection():
         print(DATABASE_URL)
         return MongoClient(DATABASE_URL)
-        # return MongoClient("mongodb+srv://webvisioncrypto:RGmuJIQkWbZ4xDva@cluster0.xqsb5.mongodb.net/cryptowebvison?retryWrites=true&w=majority")
