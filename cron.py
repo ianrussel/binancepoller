@@ -7,13 +7,12 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 sched = BlockingScheduler()
-# connection = Connect.get_connection()
-# db = connection.webvision
+number_minutes = os.getenv('NUMBER_MINUTES', 1)
 
 
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', minutes=int(number_minutes))
 def timed_job():
-    print('fetching candlestick run every minute(s).')
+    print(f'fetching candlestick run every {number_minutes} minute(s).')
     binance_symbols = ast.literal_eval(os.getenv("BINANCE_SYMBOLS"))
 
     for symbol in binance_symbols:

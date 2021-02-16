@@ -10,6 +10,7 @@ constantly==15.1.0
 cryptography==3.4.4
 dateparser==1.0.0
 dnspython==2.1.0
+flake8==3.8.4
 Flask==1.1.2
 flask-crontab==0.1.2
 gunicorn==20.0.4
@@ -19,11 +20,14 @@ incremental==17.5.0
 itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
+mccabe==0.6.1
 numpy==1.20.1
 pandas==1.2.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
+pycodestyle==2.6.0
 pycparser==2.20
+pyflakes==2.2.0
 PyHamcrest==2.0.2
 pymongo==3.11.3
 pyOpenSSL==20.0.1

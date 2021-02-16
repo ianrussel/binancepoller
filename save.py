@@ -70,20 +70,3 @@ def get_all_binance(symbol, kline_size, save=False):
 
     print('All caught up..!')
     return data_df
-
-
-# resp = binance_client .get_products()
-# res = resp
-# for r in res['data']:
-#     print(r['s'])
-#     binance_symbols.append(r['s'])
-# binance_symbols = ast.literal_eval(os.getenv("BINANCE_SYMBOLS"))
-
-# for symbol in binance_symbols:
-#     print(symbol)
-#     try:
-#         get_all_binance(symbol, "1m", save=True)
-#     except:
-#         print("error")
-#         continue
-# print("ALL DONE")
