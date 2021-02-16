@@ -68,7 +68,8 @@ def get_all_binance(symbol, kline_size, save=False):
         symbol = filename.split('/')[1].split('-')[0]
         # if symbol.upper() not in db.list_collection_names():
         """ save to db """
-        import_content(filename, symbol)
+        if os.getenv("SAVE_DB"):
+            import_content(filename, symbol)
 
     print('All caught up..!')
     return data_df
@@ -86,4 +87,6 @@ def get_all_binance(symbol, kline_size, save=False):
 #     try:
 #         get_all_binance(symbol, "1m", save=True)
 #     except:
+#         print("error")
 #         continue
+# print("ALL DONE")

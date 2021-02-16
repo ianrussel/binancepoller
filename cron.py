@@ -37,6 +37,7 @@ def timed_job():
             get_all_binance(symbol, "1m", save=True)
         except:
             continue
+    print("ALL DONE!")
 
 
 sched.start()
