@@ -6,11 +6,11 @@ import os
 from binance.client import Client
 from datetime import datetime
 from dateutil import parser
-from database import Connect
+# from database import Connect
 from insert import import_content
 
-connection = Connect.get_connection()
-db = connection.webvision
+# connection = Connect.get_connection()
+# db = connection.webvision
 
 # CONSTANTS
 binsizes = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
@@ -32,7 +32,7 @@ def minutes_of_new_data(symbol, kline_size, data, source):
 
 
 def get_all_binance(symbol, kline_size, save=False):
-    filename = '%s/%s-%s-data.csv' % ("csv", symbol, kline_size)
+    filename = '%s/%s/%s-%s-data.csv' % ("csv", symbol, symbol, kline_size)
     if os.path.isfile(filename):
         data_df = pd.read_csv(filename)
     else:
@@ -64,12 +64,12 @@ def get_all_binance(symbol, kline_size, save=False):
         data_df.to_csv(filename)
         symbol = filename.split('/')[1].split('-')[0]
         # if symbol.upper() not in db.list_collection_names():
-        """ save to db """
-        if os.getenv("SAVE_DB") == False:
-            print(f'{symbol} is not to be save')
-        else:
-            print('saving..')
-            import_content(filename, symbol)
+        # """ save to db """
+        # if os.getenv("SAVE_DB") == False:
+        #     print(f'{symbol} is not to be save')
+        # else:
+        #     print('saving..')
+        #     import_content(filename, symbol)
 
     print('All caught up..!')
     return data_df
