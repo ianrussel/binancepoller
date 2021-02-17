@@ -1,6 +1,7 @@
 import os
 import ast
 import os.path
+import logging
 
 from save import get_all_binance
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -30,3 +31,4 @@ def timed_job():
 
 
 sched.start()
+logging.getLogger('apscheduler.executors.default').setLevel(logging.WARNING)
