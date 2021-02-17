@@ -1,1 +1,1 @@
-**simple scheduler for BTC crypto poller for my personal crypto**
+**simple scheduler for Binance candlestick poller**
