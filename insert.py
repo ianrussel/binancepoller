@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import os
 import time
+import itertools
 
 from database import Connect
 
@@ -15,12 +16,15 @@ def import_content(filepath, symbol):
     db_cm = db[collection_name]
     cdir = os.path.dirname(__file__)
     file_res = os.path.join(cdir, filepath)
-
-    data = pd.read_csv(file_res)
-    data_json = json.loads(data.to_json(orient='records'))
-    db[symbol].drop()
-    db_cm.insert_many(data_json)
-    print("---------%s seconds" % (time.time() - start_time))
+    try:
+        print('yes it is called')
+        data = pd.read_csv(file_res)
+        data_json = json.loads(data.to_json(orient='records'))
+        db[symbol].drop()
+        db_cm.insert_many(data_json)
+        print("---------%s seconds" % (time.time() - start_time))
+    except Exception as e:
+        print(f'error: {e}')
 
 
 # filepath = 'csv/BTCUSDT-1m-data.csv'
