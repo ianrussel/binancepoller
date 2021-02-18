@@ -2,7 +2,6 @@ import pandas as pd
 import json
 import os
 import time
-import itertools
 
 from database import Connect
 

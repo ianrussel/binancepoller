@@ -32,6 +32,8 @@ def minutes_of_new_data(symbol, kline_size, data, source):
 
 
 def get_all_binance(symbol, kline_size, save=False):
+    if not os.path.exists(f'csv/{symbol}'):
+        os.makedirs(f'csv/{symbol}')
     filename = '%s/%s/%s-%s-data.csv' % ("csv", symbol, symbol, kline_size)
     if os.path.isfile(filename):
         data_df = pd.read_csv(filename)
@@ -41,13 +43,15 @@ def get_all_binance(symbol, kline_size, save=False):
         symbol, kline_size, data_df, source="binance")
     delta_min = (newest_point - oldest_point).total_seconds() / 60
     available_data = math.ceil(delta_min / binsizes[kline_size])
-    if oldest_point == datetime.strptime('1 Jan 2017', '%d %b %Y'):
-        print('Downloading all available %s data for %s. Be patient..!' %
-              (kline_size, symbol))
-    else:
-        print('Downloading % d minutes of new data available for % s, i.e. \
-        % d instances of % s data.' % (
-            delta_min, symbol, available_data, kline_size))
+    print(
+          f'Downloading {available_data} minutes for {symbol}_{kline_size} @ {oldest_point} ...Please be patient')  # noqa
+    # if oldest_point == datetime.strptime('1 Jan 2017', '%d %b %Y'):
+    #     print('Downloading all available %s data for %s. Be patient..!' %
+    #           (kline_size, symbol))
+    # else:
+    #     print('Downloading % d minutes of new data available for % s, i.e. \
+    #     % d instances of % s data.' % (
+    #         delta_min, symbol, available_data, kline_size))
     klines = binance_client.get_historical_klines(symbol, kline_size, oldest_point.strftime(
         "%d %b %Y %H:%M:%S"), newest_point.strftime("%d %b %Y %H:%M:%S"))
     data = pd.DataFrame(klines, columns=['timestamp', 'open', 'high', 'low', 'close',
